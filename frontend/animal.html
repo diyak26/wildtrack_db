@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animal Module – WildTrack DB</title>
+    <link rel="stylesheet" href="animal.css" />
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="images/logo.png" alt="WildTrack Logo">
+            <div>
+                <h2>WildTrack DB</h2>
+                <span>Conservation System</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="modules.html">Modules</a>
+        </nav>
+
+        <a href="#" class="login-btn">Login</a>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <h1>Animal Module</h1>
+        <p>Manage animal records and profiles</p>
+    </section>
+
+    <!-- SEARCH + ADD -->
+    <section class="top-bar">
+        <div class="search-box">
+            <span>🔍</span>
+            <input id="searchInput" type="text" placeholder="Search animals..." />
+        </div>
+
+        <button id="openModalBtn" class="add-btn">➕ Add Animal</button>
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Species</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Zone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="animalTableBody">
+                <!-- JS will load rows -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ADD ANIMAL MODAL -->
+    <div id="modalOverlay" class="overlay"></div>
+
+    <div id="animalModal" class="modal">
+        <div class="modal-header">
+            <h2>Add New Animal</h2>
+            <button id="closeModalBtn" class="close-btn">✖</button>
+        </div>
+
+        <div class="modal-body">
+            <label>Name</label>
+            <input id="nameInput" type="text" placeholder="Enter name" />
+
+            <label>Species</label>
+            <input id="speciesInput" type="text" placeholder="Enter species" />
+
+            <label>Age</label>
+            <input id="ageInput" type="number" />
+
+            <label>Gender</label>
+            <select id="genderInput">
+                <option value="">Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+
+            <label>Zone</label>
+            <input id="zoneInput" type="text" placeholder="Zone A / Zone B" />
+
+            <button id="saveAnimalBtn" class="submit-btn">Add Animal</button>
+        </div>
+    </div>
+
+    <script src="animal.js"></script>
+</body>
+</html>

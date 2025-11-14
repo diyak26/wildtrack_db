@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zone Module – WildTrack DB</title>
+    <link rel="stylesheet" href="zone.css">
+    <script defer src="zone.js"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+            <div>
+                <h2>WildTrack DB</h2>
+                <span>Conservation System</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="modules.html">Modules</a>
+        </nav>
+
+        <a class="login-btn" href="#">Login</a>
+    </header>
+
+    <!-- HEADER -->
+    <section class="page-header">
+        <h1>Zone Module</h1>
+        <p>Manage forest zones and habitats</p>
+    </section>
+
+    <!-- SEARCH + ADD -->
+    <section class="top-bar">
+        <div class="search-box">
+            <span>🔍</span>
+            <input id="searchInput" type="text" placeholder="Search zones...">
+        </div>
+
+        <button id="openModal" class="add-btn">➕ Add Zone</button>
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Zone Name</th>
+                    <th>Area</th>
+                    <th>Description</th>
+                    <th>Animals</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="zoneTable">
+                <!-- JS rows -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ADD ZONE MODAL -->
+    <div id="overlay" class="overlay"></div>
+
+    <div id="zoneModal" class="modal">
+        <div class="modal-header">
+            <h2>Add New Zone</h2>
+            <button id="closeModal" class="close-btn">✖</button>
+        </div>
+
+        <div class="modal-body">
+            <label>Zone Name</label>
+            <input id="zoneName" type="text" placeholder="Zone A">
+
+            <label>Area</label>
+            <input id="zoneArea" type="text" placeholder="e.g., 150 km²">
+
+            <label>Description</label>
+            <textarea id="zoneDesc" placeholder="Describe habitat..."></textarea>
+
+            <label>Animal Count</label>
+            <input id="zoneAnimals" type="number" value="0">
+
+            <button id="saveZone" class="submit-btn">Add Zone</button>
+        </div>
+    </div>
+
+</body>
+</html>

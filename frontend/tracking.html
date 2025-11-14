@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Module – WildTrack DB</title>
+    <link rel="stylesheet" href="tracking.css">
+    <script defer src="tracking.js"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+            <div>
+                <h2>WildTrack DB</h2>
+                <span>Conservation System</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="modules.html">Modules</a>
+        </nav>
+
+        <a class="login-btn" href="#">Login</a>
+    </header>
+
+    <!-- HEADER -->
+    <section class="page-header">
+        <h1>Tracking Module</h1>
+        <p>Monitor GPS location and movement patterns</p>
+    </section>
+
+    <!-- SEARCH + VIEW MAP -->
+    <section class="top-bar">
+        <div class="search-box">
+            <span>🔍</span>
+            <input id="searchInput" type="text" placeholder="Search animals...">
+        </div>
+
+        <button class="map-btn">📍 View Map</button>
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Animal Name</th>
+                    <th>Last Location</th>
+                    <th>Timestamp</th>
+                    <th>Speed</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="trackingTable">
+                <!-- JS will insert rows -->
+            </tbody>
+        </table>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f7f6f2;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 50px;
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 45px;
+}
+
+/* PAGE HEADER */
+.page-header {
+    padding: 40px 60px 10px;
+}
+
+.page-header h1 {
+    font-size: 42px;
+}
+
+/* SEARCH + ADD */
+.top-bar {
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    width: 60%;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.search-box input {
+    width: 100%;
+    border: none;
+    margin-left: 10px;
+}
+
+/* BUTTON */
+.add-btn {
+    background: #0f6b2b;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+/* TABLE */
+.table-container {
+    padding: 0 60px 50px;
+}
+
+table {
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 18px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+tbody tr:hover {
+    background: #f8f8f8;
+}
+
+.actions span {
+    cursor: pointer;
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+/* MODAL */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    display: none;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body input,
+.modal-body textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    height: 80px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #0f6b2b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conservation Action Module – WildTrack DB</title>
+    <link rel="stylesheet" href="conservation.css">
+    <script defer src="conservation.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+           <img src="images/logo.png" alt="WildTrack Logo">
+            <div>
+                <h2>WildTrack DB</h2>
+                <span>Conservation System</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="modules.html">Modules</a>
+        </nav>
+
+        <a class="login-btn" href="#">Login</a>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <h1>Conservation Action Module</h1>
+        <p>Plan and track conservation initiatives</p>
+    </section>
+
+    <!-- SEARCH + ADD BUTTON -->
+    <section class="top-bar">
+        <div class="search-box">
+            <span>🔍</span>
+            <input id="searchInput" type="text" placeholder="Search actions...">
+        </div>
+
+        <button id="openModalBtn" class="add-btn">➕ Add Action</button>
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Zone</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>Team</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="actionTableBody">
+                <!-- Filled by JS -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- OVERLAY -->
+    <div id="modalOverlay" class="overlay"></div>
+
+    <!-- MODAL -->
+    <div id="actionModal" class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Action</h2>
+                <button id="closeModalBtn" class="close-btn">✖</button>
+            </div>
+
+            <div class="modal-body">
+
+                <label>Action Title</label>
+                <input id="actionTitle" type="text">
+
+                <label>Zone</label>
+                <input id="actionZone" type="text">
+
+                <label>Status</label>
+                <select id="actionStatus">
+                    <option value="planned">Planned</option>
+                    <option value="ongoing">Ongoing</option>
+                </select>
+
+                <label>Start Date</label>
+                <input id="actionDate" type="date">
+
+                <label>Team</label>
+                <input id="actionTeam" type="text">
+
+                <label>Description</label>
+                <textarea id="actionDesc"></textarea>
+
+                <button id="saveActionBtn" class="submit-btn">Add Action</button>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

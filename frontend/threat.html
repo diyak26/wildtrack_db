@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat & Alert Module – WildTrack DB</title>
+    <link rel="stylesheet" href="threat.css">
+    <script defer src="threat.js"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+            <div>
+                <h2>WildTrack DB</h2>
+                <span>Conservation System</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="modules.html">Modules</a>
+        </nav>
+
+        <a class="login-btn" href="#">Login</a>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <h1>Threat & Alert Module</h1>
+        <p>Monitor and respond to potential threats</p>
+    </section>
+
+    <!-- SEARCH + ALERT BUTTON -->
+    <section class="top-bar">
+        <div class="search-box">
+            <span>🔍</span>
+            <input id="searchThreat" type="text" placeholder="Search threats...">
+        </div>
+
+        <button class="alert-btn">
+            ⚠️ View Active Alerts
+        </button>
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Animal</th>
+                    <th>Threat Type</th>
+                    <th>Severity</th>
+                    <th>Location</th>
+                    <th>Timestamp</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="threatTableBody">
+                <!-- Inserted by JS -->
+            </tbody>
+        </table>
+    </section>
+
+</body>
+</html>

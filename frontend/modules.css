@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f7f6f2;
+    color: #222;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 65px;
+}
+
+nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+nav a:hover, nav .active {
+    background: #e1f2e1;
+    border: 1px solid #0f6b2b;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+    background: #0f6b2b;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+/* HEADER TITLE */
+.module-header {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.module-header h1 {
+    font-size: 42px;
+    color: #2f482f;
+}
+
+.module-header p {
+    margin-top: 10px;
+    color: #555;
+}
+
+/* GRID */
+.module-grid {
+    padding: 40px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* CARD */
+.card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+}
+
+/* ICON STYLES */
+.icon {
+    width: 55px;
+    height: 55px;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.green { background: #e0f4e4; }
+.yellow { background: #fff2c9; }
+.beige { background: #f5eadc; }
+.red { background: #ffe0e0; }
+.cream { background: #fdeee0; }
+.green-light { background: #e4f5e4; }
+
+.open-link {
+    margin-top: 10px;
+    display: inline-block;
+    color: #0f6b2b;
+    font-weight: 600;
+    text-decoration: none;
+}

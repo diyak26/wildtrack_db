@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Records Module – WildTrack DB</title>
+    <link rel="stylesheet" href="medical.css" />
+    <script defer src="medical.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" />
+            <div>
+                <h2>WildTrack DB</h2>
+                <span>Conservation System</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="modules.html">Modules</a>
+        </nav>
+
+        <a class="login-btn" href="#">Login</a>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <h1>Medical Records Module</h1>
+        <p>Track animal health and treatments</p>
+    </section>
+
+    <!-- SEARCH + ADD BUTTON -->
+    <section class="top-bar">
+        <div class="search-box">
+            <span>🔍</span>
+            <input id="searchInput" type="text" placeholder="Search records..." />
+        </div>
+
+        <button id="openModalBtn" class="add-btn">➕ Add Record</button>
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Animal Name</th>
+                    <th>Record Type</th>
+                    <th>Date</th>
+                    <th>Veterinarian</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="medicalTableBody">
+                <!-- Loaded by JS -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- OVERLAY -->
+    <div id="modalOverlay" class="overlay"></div>
+
+    <!-- ADD/EDIT MEDICAL MODAL -->
+    <div id="medicalModal" class="modal">
+        <div class="modal-header">
+            <h2 id="modalTitle">Add Medical Record</h2>
+            <button id="closeModalBtn" class="close-btn">✖</button>
+        </div>
+
+        <div class="modal-body">
+            <label>Animal Name</label>
+            <input id="animalName" type="text" />
+
+            <label>Record Type</label>
+            <input id="recordType" type="text" placeholder="Vaccination, Health Checkup..." />
+
+            <label>Date</label>
+            <input id="recordDate" type="date" />
+
+            <label>Veterinarian</label>
+            <input id="vetName" type="text" placeholder="Dr. Sharma" />
+
+            <label>Notes</label>
+            <textarea id="recordNotes"></textarea>
+
+            <button id="saveRecordBtn" class="submit-btn">Add Record</button>
+        </div>
+    </div>
+
+</body>
+</html>
