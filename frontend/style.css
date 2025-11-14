@@ -201,14 +201,15 @@ nav a:hover, nav .active {
 }
 
 .cta-btn {
-    margin-top: 20px;
-    padding: 14px 30px;
-    background: white;
-    color: #134d2c;
+    margin-top: 40px;       /* This pushes the button down */
+    padding: 14px 30px;     /* This sets the size of the button itself */
+    background: rgb(244, 244, 244);
+    color: #2b5f42;
     border: none;
     border-radius: 25px;
     font-size: 16px;
     cursor: pointer;
+    display: inline-block;  /* Ensures margin-top works perfectly */
 }
 
 /* FOOTER */
