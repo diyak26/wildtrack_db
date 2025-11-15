@@ -9,76 +9,67 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   role ENUM('admin','staff') DEFAULT 'staff',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- zones
-CREATE TABLE IF NOT EXISTS zones (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(150) NOT NULL,
-  area VARCHAR(100),
-  description TEXT,
-  animal_count INT DEFAULT 0,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+CREATE TABLE IF NOT EXISTS Animal (
+  animal_id INT AUTO_INCREMENT PRIMARY KEY,
+  species VARCHAR(100) NOT NULL,
+  age INT,
+  gender ENUM('Male','Female','Unknown'),
+  health_status VARCHAR(255),
+  conservation_status VARCHAR(255),
+  entry_date DATE
 );
 
--- animals
-CREATE TABLE IF NOT EXISTS animals (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(150) NOT NULL,
-  species VARCHAR(150),
-  age VARCHAR(50),
-  gender ENUM('Male','Female','Unknown') DEFAULT 'Unknown',
-  zone_id INT DEFAULT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (zone_id) REFERENCES zones(id) ON DELETE SET NULL
+CREATE TABLE IF NOT EXISTS Zone (
+  zone_id INT AUTO_INCREMENT PRIMARY KEY,
+  zone_name VARCHAR(100),
+  region VARCHAR(100),
+  climate VARCHAR(100),
+  area_type VARCHAR(100),
+  size VARCHAR(50)
 );
 
--- gps_movements
-CREATE TABLE IF NOT EXISTS gps_movements (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Tracking_Record (
+  tracking_id INT AUTO_INCREMENT PRIMARY KEY,
   animal_id INT NOT NULL,
-  lat DECIMAL(10,7) NOT NULL,
-  lng DECIMAL(10,7) NOT NULL,
-  speed DECIMAL(6,2) DEFAULT 0,
-  recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (animal_id) REFERENCES animals(id) ON DELETE CASCADE
+  gps_location VARCHAR(255),
+  time_stamp DATETIME,
+  movement_pattern TEXT,
+  FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
+    ON DELETE CASCADE
 );
 
--- medical_records
-CREATE TABLE IF NOT EXISTS medical_records (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Threat_Alert (
+  alert_id INT AUTO_INCREMENT PRIMARY KEY,
   animal_id INT NOT NULL,
-  record_type VARCHAR(100),
-  date DATE,
-  vet VARCHAR(150),
-  notes TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (animal_id) REFERENCES animals(id) ON DELETE CASCADE
+  type VARCHAR(100),
+  severity VARCHAR(50),
+  reported_date DATE,
+  action TEXT,
+  FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
+    ON DELETE CASCADE
 );
 
--- threats
-CREATE TABLE IF NOT EXISTS threats (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  animal_id INT DEFAULT NULL,
-  threat_type VARCHAR(150),
-  severity ENUM('low','medium','high') DEFAULT 'low',
-  location VARCHAR(255),
-  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  status ENUM('active','resolved') DEFAULT 'active',
-  FOREIGN KEY (animal_id) REFERENCES animals(id) ON DELETE SET NULL
+CREATE TABLE IF NOT EXISTS Medical_Record (
+  followup_id INT AUTO_INCREMENT PRIMARY KEY,
+  record_id VARCHAR(100),
+  animal_id INT NOT NULL,
+  treatment_date DATE,
+  vet_name VARCHAR(100),
+  FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
+    ON DELETE CASCADE
 );
 
--- conservation actions
-CREATE TABLE IF NOT EXISTS actions (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255),
-  zone_id INT DEFAULT NULL,
-  status ENUM('planned','ongoing','completed') DEFAULT 'planned',
-  start_date DATE,
-  team VARCHAR(150),
-  description TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (zone_id) REFERENCES zones(id) ON DELETE SET NULL
+CREATE TABLE IF NOT EXISTS Conservation_Action (
+  action_id INT AUTO_INCREMENT PRIMARY KEY,
+  action_type VARCHAR(100),
+  animal_id INT NOT NULL,
+  action_date DATE,
+  outcome TEXT,
+  official VARCHAR(100),
+  phone_no VARCHAR(15),
+  FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
+    ON DELETE CASCADE
 );
