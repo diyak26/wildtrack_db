@@ -1,12 +1,9 @@
 <?php
+// backend/helpers/response.php
 
-function json_success($data = null) {
-    echo json_encode(['success' => true, 'data' => $data]);
-    exit;
-}
-
-function json_error($message = 'Error', $code = 400) {
-    http_response_code($code);
-    echo json_encode(['success' => false, 'error' => $message]);
+function send_json($data, $status = 200) {
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($data, JSON_UNESCAPED_UNICODE);
     exit;
 }

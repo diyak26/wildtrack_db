@@ -153,6 +153,25 @@ tbody tr:hover {
     border: 1px solid #ccc;
 }
 
+.edit-btn {
+    cursor: pointer;
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+
+/* Enable scroll inside modal */
+.modal {
+    max-height: 85vh;         /* modal cannot grow beyond screen */
+    overflow: hidden;         /* hide outer scroll */
+}
+
+.modal-body {
+    max-height: 70vh;         /* limit scroll area */
+    overflow-y: auto;         /* enable vertical scroll */
+    padding-right: 10px;      /* avoid content behind scrollbar */
+}
+
 .submit-btn {
     width: 100%;
     padding: 14px;

@@ -47,12 +47,16 @@
         <table>
             <thead>
                 <tr>
+                    <th>Animal ID</th>
                     <th>Name</th>
                     <th>Species</th>
                     <th>Age</th>
                     <th>Gender</th>
-                    <th>Zone</th>
+                    <th>Zone ID</th>
+                    <th>Health status</th>
+                    <th>Conservation status</th>
                     <th>Actions</th>
+
                 </tr>
             </thead>
             <tbody id="animalTableBody">
@@ -71,6 +75,9 @@
         </div>
 
         <div class="modal-body">
+            <label>Animal ID</label>
+            <input id="idInput" type="text" placeholder="Enter animal id" />
+
             <label>Name</label>
             <input id="nameInput" type="text" placeholder="Enter name" />
 
@@ -86,10 +93,17 @@
                 <option>Male</option>
                 <option>Female</option>
             </select>
+            
+            <label>Zone ID</label>
+            <input id="zoneInput" type="text" placeholder="Enter valid zone id" />
 
-            <label>Zone</label>
-            <input id="zoneInput" type="text" placeholder="Zone A / Zone B" />
+            
+            <label>Health status</label>
+            <input id="healthInput" type="text" placeholder="Healthy/Critical/Recovering" />
 
+            <label>Conservation status</label>
+            <input id="conservationInput" type="text" placeholder="Endangered/Least concern/Never threatened" />
+            
             <button id="saveAnimalBtn" class="submit-btn">Add Animal</button>
         </div>
     </div>
