@@ -117,7 +117,10 @@ saveBtn.onclick = async () => {
 async function deleteAnimal(id) {
     if (!confirm("Delete this animal?")) return;
 
-    const res = await fetch("http://localhost/WILDTRACK_DB/backend/api/animal_delete.php?id=${id}");
+    const res = await fetch(
+        `http://localhost/WILDTRACK_DB/backend/api/animal_delete.php?animal_id=${id}`
+    );
+
     const result = await res.json();
 
     if (result.success) {
@@ -126,9 +129,9 @@ async function deleteAnimal(id) {
     } else {
         alert("Delete failed: " + result.error);
     }
-     
-    displayAnimals();
 }
+
+
 
 
 // =========================
