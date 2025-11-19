@@ -9,23 +9,23 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
-            <div>
-                <h2>WildTrack DB</h2>
-                <span>Conservation System</span>
-            </div>
+     <!-- NAV BAR -->
+ <header class="navbar">
+    <div class="logo">
+        <img src="images/logo.png" alt="WildTrack Logo">
+        <div class="logo-text">
+            <h1>WildTrack DB</h1>
+            <p>Conservation System</p>
         </div>
+    </div>
 
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="modules.html">Modules</a>
-        </nav>
-
-        <a class="login-btn" href="#">Login</a>
-    </header>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="modules.html">Modules</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+    </nav>
+</header>
 
     <!-- HEADER -->
     <section class="page-header">
@@ -48,9 +48,10 @@
         <table>
             <thead>
                 <tr>
+                    <th>Zone id</th>
                     <th>Zone Name</th>
-                    <th>Area</th>
                     <th>Description</th>
+                    <th>Area</th>
                     <th>Animals</th>
                     <th>Actions</th>
                 </tr>
@@ -72,15 +73,14 @@
         </div>
 
         <div class="modal-body">
+             <label>Zone ID</label>
+            <input id="zoneId" type="text" placeholder="101">
             <label>Zone Name</label>
             <input id="zoneName" type="text" placeholder="Zone A">
-
-            <label>Area</label>
-            <input id="zoneArea" type="text" placeholder="e.g., 150 km²">
-
             <label>Description</label>
             <textarea id="zoneDesc" placeholder="Describe habitat..."></textarea>
-
+            <label>Area</label>
+            <input id="zoneArea" type="text" placeholder="e.g., 150 km²">
             <label>Animal Count</label>
             <input id="zoneAnimals" type="number" value="0">
 

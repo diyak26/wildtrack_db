@@ -9,6 +9,9 @@ const saveBtn = document.getElementById("saveAnimalBtn");
 const tbody = document.getElementById("animalTableBody");
 const searchInput = document.getElementById("searchInput");
 
+let animalsCache = [];
+let editingAnimal = null;
+
 
 // =========================
 // OPEN / CLOSE MODAL
@@ -26,6 +29,7 @@ closeModalBtn.onclick = () => {
 
 function clearForm() {
     document.getElementById("idInput").value="";
+    document.getElementById("idInput").readOnly = false;
     document.getElementById("nameInput").value = "";
     document.getElementById("speciesInput").value = "";
     document.getElementById("ageInput").value = "";
@@ -33,6 +37,8 @@ function clearForm() {
     document.getElementById("zoneInput").value = "";
     document.getElementById("healthInput").value = "";
     document.getElementById("conservationInput").value = "";
+    editingAnimal = null;
+    saveBtn.textContent = "Save Animal";
 }
 
 
@@ -50,6 +56,7 @@ async function displayAnimals() {
     }
 
     const animals = result.data;
+    animalsCache = animals;
     tbody.innerHTML = "";
 
     animals.forEach(a => {
@@ -80,7 +87,7 @@ displayAnimals(); // initial load
 // =========================
 saveBtn.onclick = async () => {
 
-    let newAnimal = {
+    const payload = {
         animal_id: document.getElementById("idInput").value, 
         name: document.getElementById("nameInput").value,
         species: document.getElementById("speciesInput").value,
@@ -89,19 +96,24 @@ saveBtn.onclick = async () => {
         zone_id: document.getElementById("zoneInput").value,
         health_status: document.getElementById("healthInput").value,
         conservation_status: document.getElementById("conservationInput").value,
-        entry_date: new Date().toISOString().split("T")[0]
+        entry_date: editingAnimal?.entry_date || new Date().toISOString().split("T")[0]
     };
 
-    const res = await fetch("http://localhost/WILDTRACK_DB/backend/api/animal_create.php", {
+    const isEditing = Boolean(editingAnimal);
+    const url = isEditing
+        ? "http://localhost/WILDTRACK_DB/backend/api/animal_update.php"
+        : "http://localhost/WILDTRACK_DB/backend/api/animal_create.php";
+
+    const res = await fetch(url, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(newAnimal)
+        body: JSON.stringify(payload)
     });
 
     const result = await res.json();
 
     if (result.success) {
-        alert("Animal added successfully!");
+        alert(isEditing ? "Animal updated successfully!" : "Animal added successfully!");
         displayAnimals();
         modal.style.display = "none";
         overlay.style.display = "none";
@@ -150,5 +162,25 @@ searchInput.onkeyup = () => {
 // (OPTIONAL) LOAD ANIMAL FOR EDIT
 // =========================
 function loadAnimalForEdit(id) {
-    alert("Edit feature coming next! Say: enable edit feature.");
+    const animal = animalsCache.find(a => Number(a.animal_id) === Number(id));
+
+    if (!animal) {
+        alert("Could not find that animal. Try refreshing.");
+        return;
+    }
+
+    editingAnimal = animal;
+    document.getElementById("idInput").value = animal.animal_id;
+    document.getElementById("idInput").readOnly = true; // prevent primary key changes
+    document.getElementById("nameInput").value = animal.name || "";
+    document.getElementById("speciesInput").value = animal.species || "";
+    document.getElementById("ageInput").value = animal.age || "";
+    document.getElementById("genderInput").value = animal.gender || "";
+    document.getElementById("zoneInput").value = animal.zone_id || "";
+    document.getElementById("healthInput").value = animal.health_status || "";
+    document.getElementById("conservationInput").value = animal.conservation_status || "";
+
+    saveBtn.textContent = "Update Animal";
+    modal.style.display = "block";
+    overlay.style.display = "block";
 }

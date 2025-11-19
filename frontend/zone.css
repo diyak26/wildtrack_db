@@ -8,25 +8,57 @@ body { background: #f7f6f2; }
 .navbar {
     display: flex;
     justify-content: space-between;
-    padding: 15px 50px;
     align-items: center;
-    background: #fff;
-    border-bottom: 1px solid #ddd;
+    padding: 15px 40px;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    font-family: Arial, sans-serif;
 }
 
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo img { width: 45px; }
+/* LOGO SECTION */
+.logo {
+    display: flex;
+    align-items: center;
+}
 
-nav a {
-    margin-left: 25px;
+.logo img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.logo-text h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo-text p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* NAV LINKS */
+.nav-links a {
+    margin-left: 35px;
     text-decoration: none;
-    color: #222;
-    font-weight: 500;
+    color: #333;
+    font-size: 18px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    transition: background 0.2s ease;
 }
 
-.login-btn {
-    background: #0f6b2b; color: white; padding: 8px 20px;
-    border-radius: 6px; text-decoration: none;
+/* ACTIVE PAGE (green outline + light green fill) */
+.nav-links a.active {
+    background: #e9f7ec;
+    border: 1px solid #4fa866;
+    color: #2f6d40;
+}
+
+/* HOVER EFFECT */
+.nav-links a:hover {
+    background: #f1f1f1;
 }
 
 /* HEADER */

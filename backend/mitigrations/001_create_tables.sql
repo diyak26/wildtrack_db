@@ -34,12 +34,11 @@ CREATE TABLE IF NOT EXISTS Animal (
 
 -- ZONE TABLE
 CREATE TABLE IF NOT EXISTS Zone (
-  zone_id INT AUTO_INCREMENT PRIMARY KEY,
+  zone_id INT PRIMARY KEY,
   zone_name VARCHAR(100),
-  region VARCHAR(100),
-  climate VARCHAR(100),
-  area_type VARCHAR(100),
-  size VARCHAR(50),
+  description VARCHAR(100),
+  area VARCHAR(50),
+  animals_cnt INT ,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
