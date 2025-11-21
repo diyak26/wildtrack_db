@@ -38,9 +38,63 @@ CREATE TABLE IF NOT EXISTS Zone (
   zone_name VARCHAR(100),
   description VARCHAR(100),
   area VARCHAR(50),
-  animals_cnt INT ,
+  animals_cnt INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ensure animals_cnt always reflects the number of animals assigned to the zone
+DELIMITER $$
+
+CREATE TRIGGER trg_animal_after_insert
+AFTER INSERT ON Animal
+FOR EACH ROW
+BEGIN
+  IF NEW.zone_id IS NOT NULL THEN
+    UPDATE Zone
+    SET animals_cnt = COALESCE(animals_cnt, 0) + 1
+    WHERE zone_id = NEW.zone_id;
+  END IF;
+END$$
+
+CREATE TRIGGER trg_animal_after_delete
+AFTER DELETE ON Animal
+FOR EACH ROW
+BEGIN
+  IF OLD.zone_id IS NOT NULL THEN
+    UPDATE Zone
+    SET animals_cnt = GREATEST(COALESCE(animals_cnt, 1) - 1, 0)
+    WHERE zone_id = OLD.zone_id;
+  END IF;
+END$$
+
+CREATE TRIGGER trg_animal_after_update
+AFTER UPDATE ON Animal
+FOR EACH ROW
+BEGIN
+  IF (OLD.zone_id IS NOT NULL) AND (OLD.zone_id <> NEW.zone_id) THEN
+    UPDATE Zone
+    SET animals_cnt = GREATEST(COALESCE(animals_cnt, 1) - 1, 0)
+    WHERE zone_id = OLD.zone_id;
+  END IF;
+
+  IF (NEW.zone_id IS NOT NULL) AND (OLD.zone_id <> NEW.zone_id) THEN
+    UPDATE Zone
+    SET animals_cnt = COALESCE(animals_cnt, 0) + 1
+    WHERE zone_id = NEW.zone_id;
+  END IF;
+END$$
+
+DELIMITER ;
+
+-- backfill existing data
+UPDATE Zone z
+LEFT JOIN (
+  SELECT zone_id, COUNT(*) AS cnt
+  FROM Animal
+  WHERE zone_id IS NOT NULL
+  GROUP BY zone_id
+) counts ON z.zone_id = counts.zone_id
+SET z.animals_cnt = COALESCE(counts.cnt, 0);
 
 -- TRACKING RECORD TABLE
 CREATE TABLE IF NOT EXISTS Tracking_Record (
