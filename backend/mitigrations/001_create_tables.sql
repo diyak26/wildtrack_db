@@ -126,6 +126,10 @@ CREATE TABLE IF NOT EXISTS Medical_Record (
   animal_id INT NOT NULL,
   treatment_date DATE,
   vet_name VARCHAR(100),
+  diagnosis TEXT,
+  treatment TEXT,
+  medication TEXT,
+  notes TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
     ON DELETE CASCADE

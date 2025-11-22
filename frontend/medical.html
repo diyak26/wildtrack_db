@@ -1,98 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Medical Records Module – WildTrack DB</title>
-    <link rel="stylesheet" href="medical.css" />
-    <script defer src="medical.js"></script>
-</head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Medical Records — WildTrack DB</title>
 
+  <link rel="stylesheet" href="medical.css">
+  <script defer src="medical.js"></script>
+</head>
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" />
-            <div>
-                <h2>WildTrack DB</h2>
-                <span>Conservation System</span>
-            </div>
-        </div>
-
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="modules.html">Modules</a>
-        </nav>
-
-        <a class="login-btn" href="#">Login</a>
-    </header>
-
-    <!-- PAGE HEADER -->
-    <section class="page-header">
-        <h1>Medical Records Module</h1>
-        <p>Track animal health and treatments</p>
-    </section>
-
-    <!-- SEARCH + ADD BUTTON -->
-    <section class="top-bar">
-        <div class="search-box">
-            <span>🔍</span>
-            <input id="searchInput" type="text" placeholder="Search records..." />
-        </div>
-
-        <button id="openModalBtn" class="add-btn">➕ Add Record</button>
-    </section>
-
-    <!-- TABLE -->
-    <section class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Animal Name</th>
-                    <th>Record Type</th>
-                    <th>Date</th>
-                    <th>Veterinarian</th>
-                    <th>Notes</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-
-            <tbody id="medicalTableBody">
-                <!-- Loaded by JS -->
-            </tbody>
-        </table>
-    </section>
-
-    <!-- OVERLAY -->
-    <div id="modalOverlay" class="overlay"></div>
-
-    <!-- ADD/EDIT MEDICAL MODAL -->
-    <div id="medicalModal" class="modal">
-        <div class="modal-header">
-            <h2 id="modalTitle">Add Medical Record</h2>
-            <button id="closeModalBtn" class="close-btn">✖</button>
-        </div>
-
-        <div class="modal-body">
-            <label>Animal Name</label>
-            <input id="animalName" type="text" />
-
-            <label>Record Type</label>
-            <input id="recordType" type="text" placeholder="Vaccination, Health Checkup..." />
-
-            <label>Date</label>
-            <input id="recordDate" type="date" />
-
-            <label>Veterinarian</label>
-            <input id="vetName" type="text" placeholder="Dr. Sharma" />
-
-            <label>Notes</label>
-            <textarea id="recordNotes"></textarea>
-
-            <button id="saveRecordBtn" class="submit-btn">Add Record</button>
-        </div>
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="logo">
+      <div>
+        <h2>WildTrack DB</h2>
+        <span>Conservation System</span>
+      </div>
     </div>
 
-</body>
-</html>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="modules.html">Modules</a>
+    </nav>
+
+    <a class="login-btn" href="#">Login</a>
+  </header>
+
+  <main class="container">
+
+    <section class="page-header">
+      <h1>Medical Records</h1>
+      <p>Track animal health, treatments and follow-ups — advanced view</p>
+    </section>
+
+    <section class="controls">
+      <div class="left-controls">
+        <div class="search">
+          <span>🔍</span>
+          <input id="searchInput" placeholder="Search by animal, diagnosis, vet or notes...">
+        </div>
+
+        <div class="filters">
+          <select id="filterRecordId">
+            <option value="">All Record Types</option>
+            <!-- dynamic options populated by JS -->
+          </select>
+
+          <select id="filterVet">
+            <option value="">All Vets</option>
+            <!-- dynamic options -->
+          </select>
+
+          <select id="sortBy">
+            <option value="date_desc">Date: New → Old</option>
+            <option value="date_asc">Date: Old → New</option>
+            <option value="animal_asc">Animal: A → Z</option>
+            <option value="animal_desc">Animal: Z → A</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="right-controls">
+        <button id="bulkDeleteBtn" class="btn danger" title="Delete selected">Delete Selected</button>
+        <button id="openAddBtn" class="btn primary">+ Add Medical</button>
+      </div>
+    </section>
+
+    <section class="table-wrap">
+      <table class="records-table">
+        <thead>
+          <tr>
+            <th><input id="selectAll" type="checkbox" /></th>
+            <th>Animal</th>
+            <th>Record Type</th>
+            <th>Treatment Date</th>
+            <th>Vet</th>
+            <th>Diagnosis</th>
+            <th>Medication</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="medicalTable">
+          <!-- rows injected by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="pagination">
+      <button id="prevPage" class="btn">Prev</button>
+      <span id="pageInfo">Page 1</span>
+      <button id="nextPage" class="btn">Next</button>
+    </section>
+
+  </main>
+
+  <!-- ADD / EDIT MODAL -->
+  <div id="medicalModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <header class="modal-header">
+        <h3 id="modalTitle">Add Medical Record</h3>
+        <button id="closeModal" class="icon-btn">✕</button>
+      </header>
+
+      <div class="modal-body">
+        <form id="medicalForm">
+          <input type="hidden" id="med_followup_id" value="">
+
+          <label>Animal</label>
+          <select id="med_animal_id" required>
+            <option value="">Loading animals...</option>
+          </select>
+
+          <label>Record Type</label>
+          <input id="med_record_id" type="text" required placeholder="Vaccination, Injury Treatment...">
+
+          <label>Treatment Date</label>
+          <input id="med_treatment_date" type="date" required>
+
+          <label>Vet Name</label>
+          <input id="med_vet_name" type="text" placeholder="Dr. Name">
+
+          <label>Diagnosis</label>
+          <textarea id="med_diagnosis" rows="2" placeholder="Diagnosis details"></textarea>
+
+          <label>Treatment</label>
+          <textarea id="med_treatment" rows="2" placeholder="Treatment steps"></textarea>
+
+          <label>Medication</label>
+          <input id="med_medication" type="text" placeholder="Medication used">
+
+          <label>Notes</label>
+          <textarea id="med_notes" rows="2" placeholder="Any notes / follow-up"></textarea>
+
+          <div class="modal-actions">
+            <button id="saveMedical" type="submit" class="btn primary">Save</b
