@@ -10,23 +10,22 @@
 
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="logo">
-           <img src="images/logo.png" alt="WildTrack Logo">
-            <div>
-                <h2>WildTrack DB</h2>
-                <span>Conservation System</span>
-            </div>
+    <!-- NAV BAR -->
+ <header class="navbar">
+    <div class="logo">
+        <img src="images/logo.png" alt="WildTrack Logo">
+        <div class="logo-text">
+            <h1>WildTrack DB</h1>
+            <p>Conservation System</p>
         </div>
+    </div>
 
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="modules.html">Modules</a>
-        </nav>
-
-        <a class="login-btn" href="#">Login</a>
-    </header>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="modules.html">Modules</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
 
     <!-- PAGE HEADER -->
     <section class="page-header">
@@ -50,7 +49,7 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Zone</th>
+                    <th>Action ID</th>
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>Team</th>
@@ -83,13 +82,15 @@
                 <label>Action Title</label>
                 <input id="actionTitle" type="text">
 
-                <label>Zone</label>
-                <input id="actionZone" type="text">
+                <label>Action ID</label>
+                <input type="text" id="actionID" placeholder="Enter action ID">
 
                 <label>Status</label>
                 <select id="actionStatus">
                     <option value="planned">Planned</option>
                     <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
                 </select>
 
                 <label>Start Date</label>

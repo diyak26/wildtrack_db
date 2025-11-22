@@ -133,14 +133,10 @@ CREATE TABLE IF NOT EXISTS Medical_Record (
 
 -- CONSERVATION ACTION TABLE
 CREATE TABLE IF NOT EXISTS Conservation_Action (
-  action_id INT AUTO_INCREMENT PRIMARY KEY,
-  action_type VARCHAR(100),
-  animal_id INT NOT NULL,
-  action_date DATE,
-  outcome TEXT,
-  official VARCHAR(100),
-  phone_no VARCHAR(15),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
-    ON DELETE CASCADE
+  title VARCHAR(255) NOT NULL,
+  action_id INT  PRIMARY KEY,
+  status VARCHAR(50),
+  start_date DATE,
+  team VARCHAR(100),
+  description TEXT
 );
