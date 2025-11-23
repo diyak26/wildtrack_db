@@ -1,10 +1,22 @@
 <?php
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
-require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../../helpers/response.php';
-require_once __DIR__ . '/../../helpers/sanitize.php';
-require_once __DIR__ . '/../../helpers/auth.php';
+// Handle OPTIONS preflight request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../helpers/response.php';
+
+// Check database connection
+if (!isset($mysqli) || !$mysqli) {
+    error("Database connection failed: " . (isset($db_connection_error) ? $db_connection_error : "Unknown error"), 500);
+}
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -12,38 +24,48 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-// get fields safely
-$username = clean_string($data['username'] ?? '');
+// Check if JSON decode failed
+if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+    error("Invalid JSON data", 400);
+}
+
+// Get fields safely
+$username = trim($data['username'] ?? '');
 $password = $data['password'] ?? '';
 
-// validation
+// Validation
 if ($username === '' || $password === '') {
     error("Username and password are required", 422);
 }
 
-// fetch user
-$stmt = $conn->prepare("SELECT id, username, email, password_hash, role FROM users WHERE username = ?");
-$stmt->bind_param("s", $username);
-$stmt->execute();
+// Fetch user
+$sql = "SELECT id, username, email, password_hash, role FROM users WHERE username = ?";
+$stmt = mysqli_prepare($conn, $sql);
+if (!$stmt) {
+    error("Database error: " . mysqli_error($conn), 500);
+}
 
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+mysqli_stmt_bind_param($stmt, "s", $username);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$user = mysqli_fetch_assoc($result);
+mysqli_stmt_close($stmt);
 
 if (!$user) {
     error("Invalid username or password", 401);
 }
 
-// verify password
+// Verify password
 if (!password_verify($password, $user['password_hash'])) {
     error("Invalid username or password", 401);
 }
 
-// create session
+// Create session
 $_SESSION["user_id"] = $user["id"];
 $_SESSION["username"] = $user["username"];
 $_SESSION["role"] = $user["role"];
 
-// success response
+// Success response
 success([
     "user_id" => $user['id'],
     "username" => $user['username'],

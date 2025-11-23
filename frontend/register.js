@@ -1,20 +1,26 @@
-document.getElementById("loginBtn").addEventListener("click", async () => {
+document.getElementById("registerBtn").addEventListener("click", async () => {
     const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    if (!username || !password) {
-        alert("Please enter both username and password.");
+    if (!username || !email || !password) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    if (password.length < 6) {
+        alert("Password must be at least 6 characters long.");
         return;
     }
 
     try {
-        const url = "http://localhost/WILDTRACK_DB/backend/api/login.php";
-        console.log("Attempting login to:", url);
+        const url = "http://localhost/WILDTRACK_DB/backend/api/register.php";
+        console.log("Attempting registration to:", url);
         
         const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, email, password })
         });
 
         console.log("Response status:", response.status);
@@ -32,22 +38,18 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
         }
 
         const result = await response.json();
-        console.log("Login result:", result);
+        console.log("Registration result:", result);
 
         if (result.status === "success") {
-            alert("Login successful!");
-
-            // Save user info in browser storage
-            localStorage.setItem("user", JSON.stringify(result.data));
-
-            // Redirect to dashboard
-            window.location.href = "modules.html";
+            alert("Registration successful! Please login with your credentials.");
+            window.location.href = "login.html";
         } else {
-            alert(result.message || "Login failed. Please try again.");
+            alert(result.message || "Registration failed. Please try again.");
         }
 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Registration error:", error);
         alert("Connection failed: " + error.message + ". Check if backend server is running.");
     }
 });
+

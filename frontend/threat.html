@@ -9,22 +9,21 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAV BAR -->
     <header class="navbar">
         <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
-            <div>
-                <h2>WildTrack DB</h2>
-                <span>Conservation System</span>
+            <img src="images/logo.png" alt="WildTrack Logo">
+            <div class="logo-text">
+                <h1>WildTrack DB</h1>
+                <p>Conservation System</p>
             </div>
         </div>
 
-        <nav>
+        <nav class="nav-links">
             <a href="index.html">Home</a>
             <a href="modules.html">Modules</a>
+            <a href="contact.html">Contact</a>
         </nav>
-
-        <a class="login-btn" href="#">Login</a>
     </header>
 
     <!-- PAGE HEADER -->
@@ -33,16 +32,19 @@
         <p>Monitor and respond to potential threats</p>
     </section>
 
-    <!-- SEARCH + ALERT BUTTON -->
+    <!-- SEARCH + BUTTONS -->
     <section class="top-bar">
         <div class="search-box">
             <span>🔍</span>
             <input id="searchThreat" type="text" placeholder="Search threats...">
         </div>
 
-        <button class="alert-btn">
-            ⚠️ View Active Alerts
-        </button>
+        <div style="display: flex; gap: 10px;">
+            <button id="openModalBtn" class="add-btn">➕ Add Threat</button>
+            <button id="viewActiveAlertsBtn" class="alert-btn">
+                ⚠️ View Active Alerts
+            </button>
+        </div>
     </section>
 
     <!-- TABLE -->
@@ -51,19 +53,71 @@
             <thead>
                 <tr>
                     <th>Animal</th>
+                    <th>Animal ID</th>
                     <th>Threat Type</th>
                     <th>Severity</th>
-                    <th>Location</th>
+                    <th>Zone</th>
+                    <th>Zone ID</th>
                     <th>Timestamp</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-
             <tbody id="threatTableBody">
-                <!-- Inserted by JS -->
+                <!-- Filled by JS -->
             </tbody>
         </table>
     </section>
+
+    <!-- ADD THREAT MODAL -->
+    <div id="modalOverlay" class="overlay"></div>
+
+    <div id="threatModal" class="modal">
+        <div class="modal-header">
+            <h2 id="modalTitle">Add New Threat</h2>
+            <button id="closeModalBtn" class="close-btn">✖</button>
+        </div>
+
+        <div class="modal-body">
+            <label>Animal Name *</label>
+            <input id="animalNameInput" type="text" placeholder="Enter animal name" list="animalNamesList" />
+            <datalist id="animalNamesList"></datalist>
+            <input id="animalIdInput" type="hidden" />
+
+            <label>Zone Name *</label>
+            <input id="zoneNameInput" type="text" placeholder="Enter zone name" list="zoneNamesList" />
+            <datalist id="zoneNamesList"></datalist>
+            <input id="zoneIdInput" type="hidden" />
+
+            <label>Threat Type</label>
+            <input id="threatTypeInput" type="text" placeholder="e.g., Poaching, Habitat Loss, Disease" />
+
+            <label>Severity</label>
+            <select id="severityInput">
+                <option value="">Select severity</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="critical">Critical</option>
+            </select>
+
+            <label>Reported Date</label>
+            <input id="reportedDateInput" type="date" />
+
+            <label>Status</label>
+            <select id="statusInput">
+                <option value="active">Active</option>
+                <option value="resolved">Resolved</option>
+                <option value="investigating">Investigating</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+
+            <label>Action Taken</label>
+            <textarea id="actionInput" rows="3" placeholder="Describe action taken or planned..."></textarea>
+
+            <button id="saveThreatBtn" class="submit-btn">Add Threat</button>
+        </div>
+    </div>
 
 </body>
 </html>

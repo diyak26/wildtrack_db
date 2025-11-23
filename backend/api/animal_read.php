@@ -1,7 +1,16 @@
 <?php
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../helpers/response.php';
+
+// Check database connection
+if (!isset($mysqli) || !$mysqli) {
+    send_json(["success" => false, "error" => "Database connection failed"], 500);
+}
 
 $sql = "SELECT a.*, z.zone_name
         FROM Animal a
@@ -11,7 +20,7 @@ $sql = "SELECT a.*, z.zone_name
 $result = mysqli_query($conn, $sql);
 
 if (!$result) {
-    error("SQL Error: " . mysqli_error($conn));
+    send_json(["success" => false, "error" => "SQL Error: " . mysqli_error($conn)], 500);
 }
 
 $animals = [];
@@ -19,5 +28,5 @@ while ($row = mysqli_fetch_assoc($result)) {
     $animals[] = $row;
 }
 
-success($animals, "Animals loaded");
+send_json(["success" => true, "data" => $animals]);
 ?>

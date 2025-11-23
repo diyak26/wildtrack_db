@@ -4,12 +4,11 @@ USE wildtrack_db;
 
 -- USERS TABLE
 CREATE TABLE IF NOT EXISTS users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(100) UNIQUE NOT NULL,
-  email VARCHAR(255) UNIQUE,
-  password_hash VARCHAR(255) NOT NULL,
-  role ENUM('admin','staff') DEFAULT 'staff',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255),
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'staff') DEFAULT 'staff'
 );
 
 -- ANIMAL TABLE
@@ -115,6 +114,7 @@ CREATE TABLE IF NOT EXISTS Threat_Alert (
   severity VARCHAR(50),
   reported_date DATE,
   action TEXT,
+  status VARCHAR(50) DEFAULT 'active',
   FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
     ON DELETE CASCADE
 );
