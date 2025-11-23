@@ -33,26 +33,41 @@ if (empty($data["alert_id"])) {
     send_json(["success" => false, "error" => "alert_id is required"], 400);
 }
 
+// Check table name (case-insensitive)
+$tableCheck = mysqli_query($mysqli, "SHOW TABLES LIKE 'threat_alert'");
+if (mysqli_num_rows($tableCheck) == 0) {
+    $tableCheck = mysqli_query($mysqli, "SHOW TABLES LIKE 'Threat_Alert'");
+    if (mysqli_num_rows($tableCheck) == 0) {
+        send_json(["success" => false, "error" => "Threat_Alert table does not exist"], 500);
+    }
+    $tableName = "Threat_Alert";
+} else {
+    $tableName = "threat_alert";
+}
+
 // Check if status column exists
-$checkColumn = mysqli_query($mysqli, "SHOW COLUMNS FROM Threat_Alert LIKE 'status'");
+$checkColumn = mysqli_query($mysqli, "SHOW COLUMNS FROM `$tableName` LIKE 'status'");
+if (!$checkColumn) {
+    send_json(["success" => false, "error" => "Error checking columns: " . mysqli_error($mysqli)], 500);
+}
 $hasStatusColumn = mysqli_num_rows($checkColumn) > 0;
 
+// Don't include action column in UPDATE
+// Note: 'type' is a reserved keyword, so we use backticks
 if ($hasStatusColumn) {
-    $sql = "UPDATE Threat_Alert SET 
+    $sql = "UPDATE `$tableName` SET 
             animal_id=?, 
-            type=?, 
+            `type`=?, 
             severity=?, 
             reported_date=?, 
-            action=?, 
             status=?
             WHERE alert_id=?";
 } else {
-    $sql = "UPDATE Threat_Alert SET 
+    $sql = "UPDATE `$tableName` SET 
             animal_id=?, 
-            type=?, 
+            `type`=?, 
             severity=?, 
-            reported_date=?, 
-            action=?
+            reported_date=?
             WHERE alert_id=?";
 }
 
@@ -61,28 +76,34 @@ if (!$stmt) {
     send_json(["success" => false, "error" => "Database error: " . mysqli_error($mysqli)], 500);
 }
 
+// Prepare variables for binding (must be variables, not expressions)
+$animal_id = intval($data["animal_id"]);
+$type = $data["type"] ?? null;
+$severity = $data["severity"] ?? null;
+$reported_date = $data["reported_date"] ?? null;
+$alert_id = intval($data["alert_id"]);
+
 if ($hasStatusColumn) {
+    $status = $data["status"] ?? "active";
     mysqli_stmt_bind_param(
         $stmt,
-        "isssssi",
-        $data["animal_id"],
-        $data["type"] ?? null,
-        $data["severity"] ?? null,
-        $data["reported_date"] ?? null,
-        $data["action"] ?? null,
-        $data["status"] ?? "active",
-        $data["alert_id"]
+        "issssi",
+        $animal_id,
+        $type,
+        $severity,
+        $reported_date,
+        $status,
+        $alert_id
     );
 } else {
     mysqli_stmt_bind_param(
         $stmt,
-        "issssi",
-        $data["animal_id"],
-        $data["type"] ?? null,
-        $data["severity"] ?? null,
-        $data["reported_date"] ?? null,
-        $data["action"] ?? null,
-        $data["alert_id"]
+        "isssi",
+        $animal_id,
+        $type,
+        $severity,
+        $reported_date,
+        $alert_id
     );
 }
 

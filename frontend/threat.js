@@ -19,7 +19,6 @@ const threatTypeInput = document.getElementById("threatTypeInput");
 const severityInput = document.getElementById("severityInput");
 const reportedDateInput = document.getElementById("reportedDateInput");
 const statusInput = document.getElementById("statusInput");
-const actionInput = document.getElementById("actionInput");
 const modalTitle = document.getElementById("modalTitle");
 
 let threatsCache = [];
@@ -57,7 +56,6 @@ function clearForm() {
     severityInput.value = "";
     reportedDateInput.value = new Date().toISOString().split("T")[0];
     statusInput.value = "active";
-    actionInput.value = "";
     editingThreat = null;
     modalTitle.textContent = "Add New Threat";
     saveBtn.textContent = "Add Threat";
@@ -240,7 +238,6 @@ saveBtn.onclick = async () => {
         type: threatTypeInput.value.trim() || null,
         severity: severityInput.value || null,
         reported_date: reportedDateInput.value || new Date().toISOString().split("T")[0],
-        action: actionInput.value.trim() || null,
         status: statusInput.value || "active"
     };
 
@@ -261,7 +258,23 @@ saveBtn.onclick = async () => {
         });
 
         if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
+            const errorText = await res.text();
+            console.error("Server error response:", errorText);
+            let errorMessage = `HTTP ${res.status} error`;
+            try {
+                const errorJson = JSON.parse(errorText);
+                errorMessage = errorJson.error || errorMessage;
+                if (errorJson.sql) {
+                    console.error("SQL Query:", errorJson.sql);
+                }
+                if (errorJson.data) {
+                    console.error("Request Data:", errorJson.data);
+                }
+            } catch (e) {
+                console.error("Could not parse error response:", errorText);
+                errorMessage += ". Raw response: " + errorText.substring(0, 200);
+            }
+            throw new Error(errorMessage);
         }
 
         const result = await res.json();
@@ -339,7 +352,6 @@ async function loadThreatForEdit(id) {
     severityInput.value = threat.severity || "";
     reportedDateInput.value = threat.reported_date || new Date().toISOString().split("T")[0];
     statusInput.value = threat.status || "active";
-    actionInput.value = threat.action || "";
 
     modalTitle.textContent = "Edit Threat";
     saveBtn.textContent = "Update Threat";
