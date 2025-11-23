@@ -3,51 +3,26 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     const password = document.getElementById("password").value.trim();
 
     if (!username || !password) {
-        alert("Please enter both username and password.");
+        alert("Please enter both username and password");
         return;
     }
 
     try {
-        const url = "http://localhost/WILDTRACK_DB/backend/api/login.php";
-        console.log("Attempting login to:", url);
-        
-        const response = await fetch(url, {
+        const response = await fetch("http://localhost/WILDTRACK_DB/backend/api/login.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
         });
 
-        console.log("Response status:", response.status);
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Response error:", errorText);
-            try {
-                const errorJson = JSON.parse(errorText);
-                alert(errorJson.message || `Error: ${response.status}`);
-            } catch {
-                alert(`Server error (${response.status}). Check console for details.`);
-            }
-            return;
-        }
-
         const result = await response.json();
-        console.log("Login result:", result);
 
         if (result.status === "success") {
-            alert("Login successful!");
-
-            // Save user info in browser storage
             localStorage.setItem("user", JSON.stringify(result.data));
-
-            // Redirect to dashboard
             window.location.href = "modules.html";
         } else {
-            alert(result.message || "Login failed. Please try again.");
+            alert(result.message || "Login failed");
         }
-
     } catch (error) {
-        console.error("Login error:", error);
-        alert("Connection failed: " + error.message + ". Check if backend server is running.");
+        alert("Connection error: " + error.message);
     }
 });

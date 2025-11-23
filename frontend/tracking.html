@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Tracking Module – WildTrack DB</title>
     <link rel="stylesheet" href="tracking.css">
     <script defer src="tracking.js"></script>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAV BAR -->
     <header class="navbar">
         <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
-            <div>
-                <h2>WildTrack DB</h2>
-                <span>Conservation System</span>
+            <img src="images/logo.png" alt="WildTrack Logo">
+            <div class="logo-text">
+                <h1>WildTrack DB</h1>
+                <p>Conservation System</p>
             </div>
         </div>
 
-        <nav>
+        <nav class="nav-links">
             <a href="index.html">Home</a>
             <a href="modules.html">Modules</a>
+            <a href="contact.html">Contact</a>
         </nav>
-
-        <a class="login-btn" href="#">Login</a>
     </header>
 
     <!-- HEADER -->
@@ -33,14 +32,16 @@
         <p>Monitor GPS location and movement patterns</p>
     </section>
 
-    <!-- SEARCH + VIEW MAP -->
+    <!-- SEARCH + MAP + ADD -->
     <section class="top-bar">
         <div class="search-box">
             <span>🔍</span>
             <input id="searchInput" type="text" placeholder="Search animals...">
         </div>
 
-        <button class="map-btn">📍 View Map</button>
+        <div class="btn-group">
+            <button id="openGPSFormBtn" class="add-btn">+ Add GPS</button>
+        </div>
     </section>
 
     <!-- TABLE -->
@@ -51,16 +52,68 @@
                     <th>Animal Name</th>
                     <th>Last Location</th>
                     <th>Timestamp</th>
-                    <th>Speed</th>
-                    <th>Status</th>
+                    <th>Movement Pattern</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
             <tbody id="trackingTable">
-                <!-- JS will insert rows -->
+                <!-- JS inserts rows -->
             </tbody>
         </table>
     </section>
+
+    <!-- ADD GPS MODAL -->
+    <div id="gpsFormModal" class="modal" style="display:none;">
+        <div class="modal-content">
+
+            <h2>Add GPS Record</h2>
+
+            <label>Animal ID</label>
+            <input id="gps_animal_id" type="number" placeholder="Enter animal ID">
+
+            <label>GPS Location (Lat, Long)</label>
+            <input id="gps_location" type="text" placeholder="19.076, 72.877">
+
+            <label>Movement Pattern</label>
+            <input id="gps_movement" type="text" placeholder="Walking, Running...">
+
+            <label>Timestamp</label>
+            <input id="gps_time" type="datetime-local">
+
+            <div class="btn-row">
+                <button id="saveGPSBtn">Save</button>
+                <button id="cancelGPSBtn" class="cancel">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- EDIT GPS MODAL -->
+    <div id="editGPSModal" class="modal" style="display:none;">
+        <div class="modal-content">
+
+            <h2>Edit GPS Record</h2>
+
+            <!-- hidden id -->
+            <input id="edit_tracking_id" type="hidden">
+
+            <label>GPS Location (Lat, Long)</label>
+            <input id="edit_gps_location" type="text">
+
+            <label>Movement Pattern</label>
+            <input id="edit_gps_movement" type="text">
+
+            <label>Timestamp</label>
+            <input id="edit_gps_time" type="datetime-local">
+
+            <div class="btn-row">
+                <button id="updateGPSBtn">Update</button>
+                <button id="cancelEditGPSBtn" class="cancel">Cancel</button>
+            </div>
+
+        </div>
+    </div>
 
 </body>
 </html>

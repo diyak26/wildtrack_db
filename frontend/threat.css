@@ -193,8 +193,10 @@ tbody tr:last-child td {
     font-weight: 600;
 }
 
-.high { background: #e8a200; }
+.high { background: #e80000; }
 .medium { background: #d68a00; }
+.low { background: #5cb85c; }
+.critical { background:navy; }
 
 .active { background: #d9534f; }
 .resolved { background: #1b8a3c; }

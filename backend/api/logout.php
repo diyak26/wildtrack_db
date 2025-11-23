@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -12,5 +11,5 @@ if (session_status() === PHP_SESSION_NONE) {
 
 session_destroy();
 
-success([], "Logged out successfully");
+send_json(["status" => "success", "message" => "Logged out successfully"]);
 ?>
