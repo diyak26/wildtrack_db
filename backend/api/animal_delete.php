@@ -28,6 +28,6 @@ if ($affected_rows == 0) {
     send_json(["success" => false, "error" => "Animal not found"]);
 }
 
-send_json(["success" => true, "message" => "Animal deleted successfully"]);
+success([], "Animal deleted successfully");
 ?>
 

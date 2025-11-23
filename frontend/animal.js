@@ -28,7 +28,7 @@ closeModalBtn.onclick = () => {
 };
 
 function clearForm() {
-    document.getElementById("idInput").value="";
+    document.getElementById("idInput").value = "";
     document.getElementById("idInput").readOnly = false;
     document.getElementById("nameInput").value = "";
     document.getElementById("speciesInput").value = "";
@@ -55,8 +55,8 @@ async function displayAnimals() {
 
         const result = await res.json();
 
-        if (!result.success) {
-            alert("Error loading animals: " + (result.error || "Unknown error"));
+        if (result.status !== "success") {
+            alert("Error loading animals: " + (result.error || result.message || "Unknown error"));
             return;
         }
 
@@ -145,7 +145,7 @@ saveBtn.onclick = async () => {
     try {
         const res = await fetch(url, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
@@ -155,13 +155,13 @@ saveBtn.onclick = async () => {
 
         const result = await res.json();
 
-        if (result.success) {
+        if (result.status === "success") {
             alert(isEditing ? "Animal updated successfully!" : "Animal added successfully!");
             displayAnimals();
             modal.style.display = "none";
             overlay.style.display = "none";
         } else {
-            alert("Error: " + (result.error || "Unknown error"));
+            alert("Error: " + (result.error || result.message || "Unknown error"));
         }
     } catch (error) {
         console.error("Error saving animal:", error);
@@ -187,11 +187,11 @@ async function deleteAnimal(id) {
 
         const result = await res.json();
 
-        if (result.success) {
+        if (result.status === "success") {
             alert("Animal deleted successfully");
             displayAnimals();
         } else {
-            alert("Delete failed: " + (result.error || "Unknown error"));
+            alert("Delete failed: " + (result.error || result.message || "Unknown error"));
         }
     } catch (error) {
         console.error("Error deleting animal:", error);

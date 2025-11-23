@@ -7,7 +7,7 @@ $input = json_decode(file_get_contents("php://input"), true);
 if (!$input) error("Invalid JSON input");
 
 // Required fields
-$record_id = trim($input['record_id'] ?? '');
+$record_type = trim($input['record_type'] ?? '');
 $animal_id = intval($input['animal_id'] ?? 0);
 $treatment_date = trim($input['treatment_date'] ?? ''); // expecting YYYY-MM-DD
 
@@ -18,19 +18,19 @@ $treatment = trim($input['treatment'] ?? '');
 $medication = trim($input['medication'] ?? '');
 $notes = trim($input['notes'] ?? '');
 
-if (!$record_id || !$animal_id || !$treatment_date) {
-    error("record_id, animal_id and treatment_date are required", 422);
+if (!$record_type || !$animal_id || !$treatment_date) {
+    error("record_type, animal_id and treatment_date are required", 422);
 }
 
 $sql = "INSERT INTO Medical_Record 
-    (record_id, animal_id, treatment_date, vet_name, diagnosis, treatment, medication, notes)
+    (record_type, animal_id, treatment_date, vet_name, diagnosis, treatment, medication, notes)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($conn, $sql);
 if (!$stmt) error("Prepare failed: " . mysqli_error($conn));
 
 mysqli_stmt_bind_param($stmt, "sissssss",
-    $record_id,
+    $record_type,
     $animal_id,
     $treatment_date,
     $vet_name,

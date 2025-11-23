@@ -4,14 +4,15 @@ const ANIMALS_API = "http://localhost/wildtrack_db/backend/api/animal_read.php";
 
 const medicalTable = document.getElementById("medicalTable");
 const searchInput = document.getElementById("searchInput");
-const filterRecordId = document.getElementById("filterRecordId");
+const filterRecordType = document.getElementById("filterRecordType");
 const filterVet = document.getElementById("filterVet");
 const sortBy = document.getElementById("sortBy");
-const selectAll = document.getElementById("selectAll");
-const bulkDeleteBtn = document.getElementById("bulkDeleteBtn");
+
 const pageInfo = document.getElementById("pageInfo");
 const prevPage = document.getElementById("prevPage");
 const nextPage = document.getElementById("nextPage");
+
+
 
 const openAddBtn = document.getElementById("openAddBtn");
 const modal = document.getElementById("medicalModal");
@@ -26,17 +27,11 @@ let filtered = [];     // after filter/search
 let page = 1;
 const PAGE_SIZE = 8;
 
+
 // small helper
-function byText(x) { return (x||"").toString().toLowerCase(); }
+function byText(x) { return (x || "").toString().toLowerCase(); }
 function formatDate(d) { if (!d) return ""; return d.split(" ")[0]; }
-function diagnosisTagClass(text) {
-  if (!text) return "tag info";
-  const t = text.toLowerCase();
-  if (t.includes("fract") || t.includes("injury") || t.includes("critical")) return "tag danger";
-  if (t.includes("infection") || t.includes("fever")) return "tag warning";
-  if (t.includes("check") || t.includes("routine") || t.includes("vaccin")) return "tag success";
-  return "tag info";
-}
+
 
 // show table-level message row
 function showTableMessage(msg) {
@@ -50,15 +45,15 @@ async function loadMedical() {
   try {
     const url = `${API_BASE}/list.php`;
     console.log("Fetching from:", url);
-    const res = await fetch(url, {cache: "no-store"});
-    
+    const res = await fetch(url, { cache: "no-store" });
+
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
-    
+
     const json = await res.json();
     console.log("Response:", json);
-    
+
     if (json.status !== "success") {
       console.error("Failed to load medical list:", json.message || json);
       allRecords = [];
@@ -79,7 +74,7 @@ async function loadMedical() {
 
 async function loadAnimalOptionsForMedical() {
   try {
-    const res = await fetch(ANIMALS_API, {cache: "no-store"});
+    const res = await fetch(ANIMALS_API, { cache: "no-store" });
     const json = await res.json();
     if (json.status !== "success") {
       console.error("Failed to load animals:", json.message);
@@ -106,11 +101,11 @@ function populateFilters(data) {
   const types = new Set();
   const vets = new Set();
   data.forEach(r => {
-    if (r.record_id) types.add(r.record_id);
+    if (r.record_type) types.add(r.record_type);
     if (r.vet_name) vets.add(r.vet_name);
   });
 
-  filterRecordId.innerHTML = `<option value="">All Record Types</option>` + [...types].map(t => `<option>${t}</option>`).join("");
+  filterRecordType.innerHTML = `<option value="">All Record Types</option>` + [...types].map(t => `<option>${t}</option>`).join("");
   filterVet.innerHTML = `<option value="">All Vets</option>` + [...vets].map(v => `<option>${v}</option>`).join("");
 }
 
@@ -125,20 +120,20 @@ function applyFiltersAndRender() {
       r.diagnosis,
       r.vet_name,
       r.notes,
-      r.record_id
+      r.record_type
     ].map(byText).join(" ");
     if (q && !text.includes(q)) return false;
-    if (filterRecordId.value && r.record_id !== filterRecordId.value) return false;
+    if (filterRecordType.value && r.record_type !== filterRecordType.value) return false;
     if (filterVet.value && r.vet_name !== filterVet.value) return false;
     return true;
   });
 
   // sort
   switch (sortBy.value) {
-    case "date_desc": filtered.sort((a,b)=> new Date(b.treatment_date) - new Date(a.treatment_date)); break;
-    case "date_asc": filtered.sort((a,b)=> new Date(a.treatment_date) - new Date(b.treatment_date)); break;
-    case "animal_asc": filtered.sort((a,b)=> byText(a.animal_name).localeCompare(byText(b.animal_name))); break;
-    case "animal_desc": filtered.sort((a,b)=> byText(b.animal_name).localeCompare(byText(a.animal_name))); break;
+    case "date_desc": filtered.sort((a, b) => new Date(b.treatment_date) - new Date(a.treatment_date)); break;
+    case "date_asc": filtered.sort((a, b) => new Date(a.treatment_date) - new Date(b.treatment_date)); break;
+    case "animal_asc": filtered.sort((a, b) => byText(a.animal_name).localeCompare(byText(b.animal_name))); break;
+    case "animal_desc": filtered.sort((a, b) => byText(b.animal_name).localeCompare(byText(a.animal_name))); break;
   }
 
   page = Math.max(1, Math.min(page, Math.ceil(filtered.length / PAGE_SIZE) || 1));
@@ -161,14 +156,13 @@ function renderTable() {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td><input type="checkbox" class="rowCheck" data-id="${row.followup_id}"></td>
-      <td><b>${row.animal_name || ("ID "+(row.animal_id||""))}</b><div class="muted">#${row.animal_id}</div></td>
-      <td>${escapeHtml(row.record_id || "")}</td>
+      <td><b>${row.animal_name || ("ID " + (row.animal_id || ""))}</b><div class="muted">#${row.animal_id}</div></td>
+      <td>${escapeHtml(row.record_type || "")}</td>
       <td>${formatDate(row.treatment_date)}</td>
       <td>${escapeHtml(row.vet_name || "")}</td>
-      <td><span class="${diagnosisTagClass(row.diagnosis)}">${escapeHtml(row.diagnosis || "—")}</span></td>
+      <td>${escapeHtml(row.diagnosis || "—")}</td>
       <td>${escapeHtml(row.medication || "")}</td>
-      <td title="${escapeHtml(row.notes || "")}">${escapeHtml((row.notes || "").slice(0,60))}</td>
+      <td title="${escapeHtml(row.notes || "")}">${escapeHtml((row.notes || "").slice(0, 60))}</td>
       <td>
         <span class="icon edit" data-id="${row.followup_id}" title="Edit">✎</span>
         <span class="icon delete" data-id="${row.followup_id}" title="Delete">🗑️</span>
@@ -181,47 +175,27 @@ function renderTable() {
 }
 
 // small HTML escape to avoid injecting accidental markup from DB fields
+// small HTML escape to avoid injecting accidental markup from DB fields
 function escapeHtml(str) {
   if (!str) return "";
-  return str.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 // -----------------------
 // EVENTS
 // -----------------------
 searchInput.oninput = () => { page = 1; applyFiltersAndRender(); };
-filterRecordId.onchange = () => { page = 1; applyFiltersAndRender(); };
+filterRecordType.onchange = () => { page = 1; applyFiltersAndRender(); };
 filterVet.onchange = () => { page = 1; applyFiltersAndRender(); };
 sortBy.onchange = () => { applyFiltersAndRender(); };
 
-prevPage.onclick = () => { page = Math.max(1, page-1); renderTable(); };
-nextPage.onclick = () => { page = Math.min(Math.ceil(filtered.length / PAGE_SIZE), page+1); renderTable(); };
-
-selectAll.onchange = () => {
-  document.querySelectorAll(".rowCheck").forEach(cb => cb.checked = selectAll.checked);
-};
-
-bulkDeleteBtn.onclick = async () => {
-  const ids = Array.from(document.querySelectorAll(".rowCheck"))
-    .filter(cb => cb.checked)
-    .map(cb => cb.dataset.id);
-
-  if (!ids.length) { alert("Select records first."); return; }
-  if (!confirm(`Delete ${ids.length} record(s)?`)) return;
-
-  try {
-    const res = await fetch(`${API_BASE}/delete.php`, {
-      method:"POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ followup_ids: ids })   // backend should accept array
-    });
-    const json = await res.json();
-    if (json.status === "success") {
-      alert("Deleted");
-      await loadMedical();
-    } else alert("Delete failed: " + (json.message||"unknown"));
-  } catch (err) { alert("Failed to connect to backend."); console.error(err); }
-};
+prevPage.onclick = () => { page = Math.max(1, page - 1); renderTable(); };
+nextPage.onclick = () => { page = Math.min(Math.ceil(filtered.length / PAGE_SIZE), page + 1); renderTable(); };
 
 // open modal for add
 openAddBtn.onclick = () => {
@@ -232,11 +206,11 @@ openAddBtn.onclick = () => {
 };
 
 // close modal
-if (closeModal) closeModal.onclick = () => modal.setAttribute("aria-hidden","true");
+if (closeModal) closeModal.onclick = () => modal.setAttribute("aria-hidden", "true");
 
 // also close modal when clicking backdrop
 modal.addEventListener("click", (ev) => {
-  if (ev.target === modal) modal.setAttribute("aria-hidden","true");
+  if (ev.target === modal) modal.setAttribute("aria-hidden", "true");
 });
 
 // attach edit/delete icons
@@ -251,13 +225,13 @@ function attachRowHandlers() {
       if (!confirm("Delete this medical record?")) return;
       try {
         const res = await fetch(`${API_BASE}/delete.php`, {
-          method:"POST",
-          headers: {"Content-Type":"application/json"},
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ followup_id: id })
         });
         const json = await res.json();
         if (json.status === "success") await loadMedical();
-        else alert("Delete failed: " + (json.message||"unknown"));
+        else alert("Delete failed: " + (json.message || "unknown"));
       } catch (err) { alert("Failed to connect to backend."); console.error(err); }
     };
   });
@@ -271,7 +245,7 @@ function openEditForm(followup_id) {
   modalTitle.textContent = "Edit Medical Record";
   document.getElementById("med_followup_id").value = rec.followup_id || "";
   document.getElementById("med_animal_id").value = rec.animal_id || "";
-  document.getElementById("med_record_id").value = rec.record_id || "";
+  document.getElementById("med_record_type").value = rec.record_type || "";
   document.getElementById("med_treatment_date").value = rec.treatment_date ? rec.treatment_date.split(" ")[0] : "";
   document.getElementById("med_vet_name").value = rec.vet_name || "";
   document.getElementById("med_diagnosis").value = rec.diagnosis || "";
@@ -279,7 +253,7 @@ function openEditForm(followup_id) {
   document.getElementById("med_medication").value = rec.medication || "";
   document.getElementById("med_notes").value = rec.notes || "";
 
-  modal.setAttribute("aria-hidden","false");
+  modal.setAttribute("aria-hidden", "false");
 }
 
 // -----------------------
@@ -290,7 +264,7 @@ medicalForm.onsubmit = async (e) => {
 
   const payload = {
     followup_id: document.getElementById("med_followup_id").value || null,
-    record_id: document.getElementById("med_record_id").value.trim(),
+    record_type: document.getElementById("med_record_type").value.trim(),
     animal_id: parseInt(document.getElementById("med_animal_id").value) || 0,
     treatment_date: document.getElementById("med_treatment_date").value,
     vet_name: document.getElementById("med_vet_name").value.trim(),
@@ -301,7 +275,7 @@ medicalForm.onsubmit = async (e) => {
   };
 
   // basic validation
-  if (!payload.animal_id || !payload.record_id || !payload.treatment_date) {
+  if (!payload.animal_id || !payload.record_type || !payload.treatment_date) {
     alert("Animal, Record Type and Treatment Date are required.");
     return;
   }
@@ -311,12 +285,12 @@ medicalForm.onsubmit = async (e) => {
   try {
     const res = await fetch(endpoint, {
       method: "POST",
-      headers: {"Content-Type":"application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
     const json = await res.json();
     if (json.status === "success") {
-      modal.setAttribute("aria-hidden","true");
+      modal.setAttribute("aria-hidden", "true");
       await loadMedical();
     } else {
       alert("Save failed: " + (json.message || "unknown"));

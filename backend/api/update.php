@@ -9,7 +9,7 @@ if (!$input) error("Invalid JSON input");
 $followup_id = intval($input['followup_id'] ?? 0);
 if (!$followup_id) error("followup_id is required", 422);
 
-$record_id = trim($input['record_id'] ?? '');
+$record_type = trim($input['record_type'] ?? '');
 $animal_id = intval($input['animal_id'] ?? 0);
 $treatment_date = trim($input['treatment_date'] ?? '');
 $vet_name = trim($input['vet_name'] ?? '');
@@ -19,13 +19,13 @@ $medication = trim($input['medication'] ?? '');
 $notes = trim($input['notes'] ?? '');
 
 // Basic validation
-if (!$record_id || !$animal_id || !$treatment_date) {
-    error("record_id, animal_id and treatment_date are required", 422);
+if (!$record_type || !$animal_id || !$treatment_date) {
+    error("record_type, animal_id and treatment_date are required", 422);
 }
 
 $sql = "
 UPDATE Medical_Record SET
-    record_id = ?,
+    record_type = ?,
     animal_id = ?,
     treatment_date = ?,
     vet_name = ?,
@@ -40,7 +40,7 @@ $stmt = mysqli_prepare($conn, $sql);
 if (!$stmt) error("Prepare failed: " . mysqli_error($conn));
 
 mysqli_stmt_bind_param($stmt, "sissssssi",
-    $record_id,
+    $record_type,
     $animal_id,
     $treatment_date,
     $vet_name,

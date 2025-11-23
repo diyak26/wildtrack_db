@@ -62,5 +62,5 @@ if (!$ok) {
 }
 
 mysqli_stmt_close($stmt);
-send_json(["success" => true, "message" => "Animal created successfully"]);
+success([], "Animal created successfully");
 ?>

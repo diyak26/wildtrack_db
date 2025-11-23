@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="medical.css">
   <script defer src="medical.js"></script>
 </head>
+
 <body>
 
   <!-- NAV BAR -->
@@ -35,14 +37,14 @@
     </section>
 
     <section class="controls">
-      <div class="left-controls">
+      <div class="left-controls"></div>
         <div class="search">
           <span>🔍</span>
           <input id="searchInput" placeholder="Search by animal, diagnosis, vet or notes...">
         </div>
 
         <div class="filters">
-          <select id="filterRecordId">
+          <select id="filterRecordType">
             <option value="">All Record Types</option>
             <!-- dynamic options populated by JS -->
           </select>
@@ -62,7 +64,6 @@
       </div>
 
       <div class="right-controls">
-        <button id="bulkDeleteBtn" class="btn danger" title="Delete selected">Delete Selected</button>
         <button id="openAddBtn" class="btn primary">+ Add Medical</button>
       </div>
     </section>
@@ -71,7 +72,6 @@
       <table class="records-table">
         <thead>
           <tr>
-            <th><input id="selectAll" type="checkbox" /></th>
             <th>Animal</th>
             <th>Record Type</th>
             <th>Treatment Date</th>
@@ -114,7 +114,7 @@
           </select>
 
           <label>Record Type</label>
-          <input id="med_record_id" type="text" required placeholder="Vaccination, Injury Treatment...">
+          <input id="med_record_type" type="text" required placeholder="Vaccination, Injury Treatment...">
 
           <label>Treatment Date</label>
           <input id="med_treatment_date" type="date" required>
@@ -135,4 +135,12 @@
           <textarea id="med_notes" rows="2" placeholder="Any notes / follow-up"></textarea>
 
           <div class="modal-actions">
-            <button id="saveMedical" type="submit" class="btn primary">Save</b
+            <button id="saveMedical" type="submit" class="btn primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

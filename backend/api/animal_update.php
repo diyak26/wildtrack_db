@@ -72,5 +72,5 @@ if (!$ok) {
 }
 
 mysqli_stmt_close($stmt);
-send_json(["success" => true, "message" => "Animal updated successfully"]);
+success([], "Animal updated successfully");
 ?>

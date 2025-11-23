@@ -28,5 +28,5 @@ while ($row = mysqli_fetch_assoc($result)) {
     $animals[] = $row;
 }
 
-send_json(["success" => true, "data" => $animals]);
+success($animals);
 ?>
